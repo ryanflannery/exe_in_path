@@ -1,14 +1,17 @@
 language: c
 
 compiler:
-   - clang
    - gcc
 
 os:
    - linux
-   - osx
 
-before_install:
-   - sudo apt-get update
-   - sudo apt-get install libgtest-dev
-   - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
+install:
+   - git clone https://github.com/google/googletest
+   - cd googletest
+   - cmake .
+   - make
+   - sudo cp googlemock/gtest/libgtest.a /usr/lib
+   - sudo cp googlemock/gtest/libgtest_main.a /usr/lib
+   - sudo cp -R googletest/include/gtest /usr/include/
+   - cd "${TRAVIS_BUILD_DIR}"

@@ -22,7 +22,7 @@ $(LIB): $(SRC) $(HEADER)
 clean:
 	rm -f $(OBJ)
 	rm -f $(LIB)
-	rm -f test
+	rm -f test src/exe_in_path.t.o
 
 install: $(LIB)
 	install -c -m 0444 $(HEADER) $(INCDIR)
@@ -35,10 +35,12 @@ uninstall:
 ### unit tests (using gtest)
 
 CXX 			 ?= clang++
-TEST_CFLAGS  = -I/usr/local/include
-TEST_LDFLAGS = -L/usr/local/lib -lgtest_main
-TEST_SOURCES = src/exe_in_path.t.cc
+TEST_CFLAGS  = -I/usr/local/include -c
+TEST_LDFLAGS = -L/usr/lib -L/usr/local/lib -lgtest -lgtest_main -lpthread
 
-test: src/exe_in_path.t.cc
-	$(CXX) $(TEST_CFLAGS) $(TEST_LDFLAGS) -o $@ $(TEST_SOURCES)
+test: src/exe_in_path.t.o
+	$(CXX) -o $@ src/exe_in_path.t.o $(TEST_LDFLAGS)
 	./test
+
+src/exe_in_path.t.o: src/exe_in_path.t.cc
+	$(CXX) -o $@ $(TEST_CFLAGS) src/exe_in_path.t.cc
