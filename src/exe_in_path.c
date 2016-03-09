@@ -31,18 +31,20 @@ exe_in_path(const char *e)
    if (NULL == e || 0 == strlen(e))
       return false;
 
-   if ((path = strdup(getenv("PATH"))) == NULL)
+   if (NULL == (path = strdup(getenv("PATH"))))
       err(1, "%s: strdup/getenv failed for $PATH", __FUNCTION__);
 
    path_copy = path;
    found = false;
-   while ((part = strsep(&path, ":")) != NULL && !found) {
-      if (strlen(part) == 0) continue;
+   while ((part = strsep(&path, ":")) != NULL && !found)
+   {
+      if (0 == strlen(part))
+         continue;
 
-      if (asprintf(&test, "%s/%s", part, e) == -1)
+      if (-1 == asprintf(&test, "%s/%s", part, e))
          err(1, "%s: failed to build path", __FUNCTION__);
 
-      if (access(test, X_OK) == 0)
+      if (0 == access(test, X_OK))
          found = true;
 
       free(test);

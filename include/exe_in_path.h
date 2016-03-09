@@ -14,8 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef PLAYER_UTILS_H
-#define PLAYER_UTILS_H
+#ifndef EXE_IN_PATH_H
+#define EXE_IN_PATH_H
 
 #include <stdbool.h>
 
